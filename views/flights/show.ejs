@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+
+    <h2>
+        <%= flight.airline %> Flight #<%= flight.flightNo %>
+    </h2>
+    <p>Departing: <%= flight.departs.toLocaleDateString() %> @ <%= flight.departs.toLocaleTimeString() %><br>
+            Departing From: <%= flight.airport %>
+    </p><br>
+
+    <form action="/flights/<%= flight._id %>/destinations" method="POST">
+        <label>Airport:
+            <select name="airport">
+                <option value="AUS">AUS</option>
+                <option value="DFW">DFW</option>
+                <option value="DEN">DEN</option>
+                <option value="LAX">LAX</option>
+                <option value="SAN">SAN</option>
+            </select>
+        </label><br>
+        <label>Arrival:
+            <input type="datetime-local" name="arrival"/>
+        </label><br>
+        <input type="submit" value="Add Arrival">
+    </form>
+    <%- include('../partials/footer') %>
+    
+    <hr width=50% size=1> <br>
+
+    <% if (flight.destinations.length) { %>
+        <% flight.destinations.forEach(d => { %>
+            <p>Departing: <%= d.arrival.toLocaleDateString() %> @ <%= d.arrival.toLocaleTimeString() %><br>
+                Departing From: <%= d.airport %>
+        </p><br>
+        <% }) %>
+    </p><br>
+    <% } else { %>
+        <h3>No Current Arrivals</h3>
+    <% } %>

@@ -3,7 +3,8 @@ const Flight = require('../models/flight');
 module.exports = {
     index,
     new: newFlight,
-    create
+    create,
+    show
 };
 
 async function index(req, res) {
@@ -38,6 +39,14 @@ async function create(req, res) {
             errorMsg: err.message
         });
     }
+}
+
+async function show(req, res) {
+    console.log(Flight.findById(req.params.id));
+    res.render('flights/show', {
+        flight: await Flight.findById(req.params.id),
+        title: "Flight Details"
+    });
 }
 
 function createInputDatePlaceholder(date) {

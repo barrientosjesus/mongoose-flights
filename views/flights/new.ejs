@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+
+    <h2>Enter a New Movie</h2>
+    <form action="/flights" method="POST">
+        <label>Airline:
+            <input type="text" name="airline">
+        </label><br>
+        <label>Airport:
+            <select name="mpaaRating">
+                <option value="AUS">AUS</option>
+                <option value="DFW">DFW</option>
+                <option value="DEN">DEN</option>
+                <option value="LAX">LAX</option>
+                <option value="SAN">SAN</option>
+            </select>
+        </label><br>
+        <label>Flight #:
+            <input type="number" name="flightNo">
+        </label><br>
+        <label>Depart Date:
+            <input type="datetime-local" name="departs" value="<%= datePlaceholder ? datePlaceholder : '' %>" />
+        </label><br>
+        <button type="submit">Add Flight</button>
+    </form>
+    <p>
+        <%= errorMsg %>
+    </p>
+
+    <%- include('../partials/footer') %>

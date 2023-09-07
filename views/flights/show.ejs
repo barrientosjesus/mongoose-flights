@@ -4,7 +4,7 @@
         <%= flight.airline %> Flight #<%= flight.flightNo %>
     </h2>
     <p>Departing: <%= flight.departs.toLocaleDateString() %> @ <%= flight.departs.toLocaleTimeString() %><br>
-            Departing From: <%= flight.airport %>
+                Departing From: <%= flight.airport %>
     </p><br>
 
     <form action="/flights/<%= flight._id %>/destinations" method="POST">
@@ -18,21 +18,59 @@
             </select>
         </label><br>
         <label>Arrival:
-            <input type="datetime-local" name="arrival"/>
+            <input type="datetime-local" name="arrival" />
         </label><br>
         <input type="submit" value="Add Arrival">
     </form>
     <%- include('../partials/footer') %>
-    
-    <hr width=50% size=1> <br>
 
-    <% if (flight.destinations.length) { %>
-        <% flight.destinations.forEach(d => { %>
-            <p>Departing: <%= d.arrival.toLocaleDateString() %> @ <%= d.arrival.toLocaleTimeString() %><br>
-                Departing From: <%= d.airport %>
-        </p><br>
-        <% }) %>
-    </p><br>
-    <% } else { %>
-        <h3>No Current Arrivals</h3>
-    <% } %>
+        <hr width=50% size=1> <br>
+        <section id="flights-tickets">
+            <section id="flights">
+                <h3><strong>Flights</strong></h3>
+                <% if (flight.destinations.length) { %>
+                    <% flight.destinations.forEach(d=> { %>
+                        <p>Departing: <%= d.arrival.toLocaleDateString() %> @ <%= d.arrival.toLocaleTimeString() %><br>
+                                    Departing From: <%= d.airport %>
+                        </p>
+                        <% }) %>
+                            <br>
+                            <% } else { %>
+                                <h5>No Current Arrivals</h5>
+                                <% } %>
+            </section>
+            <section id="tickets">
+                <h3><strong>Tickets</strong> <br>
+                    <small><a class="button" href="#popup2" id="modal-plus">Add ticket</a></small>
+                </h3>
+                <% if (tickets.length) { %>
+                    <% tickets.forEach(t=> { %>
+                        <p>Seat: <%= t.seat %><br>
+                                Price: $<%= t.price %>
+                        </p>
+                        <% }) %>
+                            <br>
+                            <% } else { %>
+                                <h5>No Tickets Available</h5>
+                                <% } %>
+            </section>
+
+        </section>
+        <div id="popup2" class="overlay light">
+            <a class="cancel" href="#"></a>
+            <div class="popup">
+                <form action="/flights/<%= flight._id %>/tickets/" method="POST">
+                    <div>
+                        <label for="seat">Seat</label>
+                        <input type="text" name="seat" id="seat">
+                    </div>
+                    <div><label for="price">Price</label>
+                        <input type="number" step="0.01" name="price" id="price">
+                    </div>
+                    <div>
+                        <input type="number" step="0.01" name="flight" id="flight" hidden>
+                    </div>
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+        </div>
